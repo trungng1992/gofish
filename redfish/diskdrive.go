@@ -79,6 +79,8 @@ type DiskDrive struct {
 	// write cache is enabled.
 	WriteCacheEnabled bool
 
+	PowerOnHours float32
+
 	Protocol               string
 	UncorrectedReadErrors  int
 	UncorrectedWriteErrors int

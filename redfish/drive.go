@@ -190,6 +190,8 @@ type Drive struct {
 	// PredictedMediaLifeLeftPercent shall contain an indicator of the
 	// percentage of life remaining in the Drive's media.
 	PredictedMediaLifeLeftPercent float32
+
+	PowerOnHours float32
 	// Protocol shall contain the protocol the associated drive is using to
 	// communicate to the storage controller for this system.
 	Protocol common.Protocol
