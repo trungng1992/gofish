@@ -6,6 +6,7 @@ package redfish
 
 import (
 	"encoding/json"
+	"fmt"
 	"reflect"
 
 	"github.com/trungng1992/gofish/common"
@@ -177,7 +178,7 @@ func ListReferencedPCIeDevices(c common.Client, link string) ([]*PCIeDevice, err
 	if err != nil {
 		return result, err
 	}
-
+	fmt.Println(links)
 	collectionError := common.NewCollectionError()
 	for _, pciedeviceLink := range links.ItemLinks {
 		pciedevice, err := GetPCIeDevice(c, pciedeviceLink)

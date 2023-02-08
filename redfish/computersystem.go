@@ -646,6 +646,10 @@ func (computersystem *ComputerSystem) UnmarshalJSON(b []byte) error {
 		computersystem.smartStorage = "/redfish/v1/Systems/1/SmartStorage/"
 	}
 
+	// Some devices have multi same PCI Link
+	computersystem.pcieDevices = common.UniqueLink(computersystem.pcieDevices)
+	computersystem.PCIeDevicesCount = len(computersystem.pcieDevices)
+
 	// This is a read/write object, so we need to save the raw object data for later
 	computersystem.rawData = b
 
@@ -786,7 +790,9 @@ func (computersystem *ComputerSystem) PCIeDevices() ([]*PCIeDevice, error) {
 	var result []*PCIeDevice
 
 	collectionError := common.NewCollectionError()
+	fmt.Println(computersystem.pcieDevices)
 	for _, pciedeviceLink := range computersystem.pcieDevices {
+
 		pciedevice, err := GetPCIeDevice(computersystem.Client, pciedeviceLink)
 		if err != nil {
 			collectionError.Failures[pciedeviceLink] = err

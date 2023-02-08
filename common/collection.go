@@ -56,7 +56,20 @@ func GetCollection(c Client, uri string) (*Collection, error) {
 	if err != nil {
 		return nil, err
 	}
+	result.ItemLinks = UniqueLink(result.ItemLinks)
 	return &result, nil
+}
+
+func UniqueLink(arr []string) []string {
+	occurred := map[string]bool{}
+	result := []string{}
+	for _, v := range arr {
+		if occurred[v] != true {
+			occurred[v] = true
+			result = append(result, v)
+		}
+	}
+	return result
 }
 
 // CollectionError is used for collecting errors when working with collections
