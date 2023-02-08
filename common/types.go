@@ -146,8 +146,9 @@ func (l Links) ToStrings() []string {
 
 // LinksCollection contains links to other entities
 type LinksCollection struct {
-	Count   int   `json:"Members@odata.count"`
-	Members Links `json:"Members"`
+	Count      int   `json:"Members@odata.count"`
+	Members    Links `json:"Members"`
+	ODataCount int   `json:"@odata.count"`
 }
 
 // ToStrings will extract the URI for all linked entities.
