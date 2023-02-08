@@ -790,7 +790,6 @@ func (computersystem *ComputerSystem) PCIeDevices() ([]*PCIeDevice, error) {
 	var result []*PCIeDevice
 
 	collectionError := common.NewCollectionError()
-	fmt.Println(computersystem.pcieDevices)
 	for _, pciedeviceLink := range computersystem.pcieDevices {
 
 		pciedevice, err := GetPCIeDevice(computersystem.Client, pciedeviceLink)
