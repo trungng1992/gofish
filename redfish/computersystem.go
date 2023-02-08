@@ -934,7 +934,6 @@ func (computersystem *ComputerSystem) Storage() ([]*Storage, error) {
 
 // SmartStorage gét the smart storage of this system
 func (computersystem *ComputerSystem) SmartStorage() (*SmartStorage, error) {
-	fmt.Println(computersystem.smartStorage)
 	return ListReferencedSmartStorages(computersystem.Client, computersystem.smartStorage)
 }
 
