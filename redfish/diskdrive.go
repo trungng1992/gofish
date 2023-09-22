@@ -6,6 +6,7 @@ package redfish
 
 import (
 	"encoding/json"
+	"fmt"
 	"reflect"
 
 	"github.com/trungng1992/gofish/common"
@@ -87,6 +88,8 @@ type DiskDrive struct {
 	// Temperature
 	CurrentTemperatureCelsius int
 	MaximumTemperatureCelsius int
+
+	// For card Trimode HPE Gen10 Plus
 	// rawData holds the original serialized JSON so we can compare updates.
 	rawData []byte
 }
@@ -101,6 +104,9 @@ func (drive *DiskDrive) UnmarshalJSON(b []byte) error {
 		RotationalSpeedRpm                float32
 		InterfaceType                     string
 		FirmwareVersion                   common.FirmwareVersion
+		PhysicalLocation                  struct {
+			PartLocation common.PartLocation
+		}
 	}
 
 	err := json.Unmarshal(b, &t)
@@ -118,6 +124,12 @@ func (drive *DiskDrive) UnmarshalJSON(b []byte) error {
 	}
 	if t.RotationalSpeedRpm > 0 {
 		drive.RotationSpeedRPM = t.RotationalSpeedRpm
+	}
+
+	// Some card trimode of HPE do not have Location tag
+	if t.Location == "" {
+		drive.Location = t.PhysicalLocation.PartLocation.ServiceLabel
+		drive.Name = fmt.Sprintf("%s-%vx", t.PhysicalLocation.PartLocation.LocationType, t.PhysicalLocation.PartLocation.LocationOrdinalValue)
 	}
 	// This is a read/write object, so we need to save the raw object data for later
 	drive.rawData = b

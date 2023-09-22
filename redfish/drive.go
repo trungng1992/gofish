@@ -6,6 +6,7 @@ package redfish
 
 import (
 	"encoding/json"
+	"fmt"
 	"reflect"
 
 	"github.com/trungng1992/gofish/common"
@@ -233,6 +234,8 @@ type Drive struct {
 	StoragePoolsCount int
 	// secureEraseTarget is the URL for SecureErase actions.
 	secureEraseTarget string
+
+	TempLocation string
 	// rawData holds the original serialized JSON so we can compare updates.
 	rawData []byte
 }
@@ -262,9 +265,12 @@ func (drive *Drive) UnmarshalJSON(b []byte) error {
 	}
 	var t struct {
 		temp
-		Links    links
-		Actions  Actions
-		Assembly common.Link
+		Links            links
+		Actions          Actions
+		Assembly         common.Link
+		PhysicalLocation struct {
+			PartLocation common.PartLocation
+		}
 	}
 
 	err := json.Unmarshal(b, &t)
@@ -283,6 +289,11 @@ func (drive *Drive) UnmarshalJSON(b []byte) error {
 	drive.pcieFunctions = t.Links.PCIeFunctions.ToStrings()
 	drive.PCIeFunctionCount = t.Links.PCIeFunctionsCount
 	drive.secureEraseTarget = t.Actions.SecureErase.Target
+
+	// Some card trimode of HPE do not have Location tag
+
+	drive.TempLocation = t.PhysicalLocation.PartLocation.ServiceLabel
+	drive.Name = fmt.Sprintf("%s-%vx", t.PhysicalLocation.PartLocation.LocationType, t.PhysicalLocation.PartLocation.LocationOrdinalValue)
 
 	// This is a read/write object, so we need to save the raw object data for later
 	drive.rawData = b
