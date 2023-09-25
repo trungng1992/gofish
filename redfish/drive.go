@@ -293,7 +293,9 @@ func (drive *Drive) UnmarshalJSON(b []byte) error {
 	// Some card trimode of HPE do not have Location tag
 
 	drive.TempLocation = t.PhysicalLocation.PartLocation.ServiceLabel
-	drive.Name = fmt.Sprintf("%s-%vx", t.PhysicalLocation.PartLocation.LocationType, t.PhysicalLocation.PartLocation.LocationOrdinalValue)
+	if drive.Name == "" {
+		drive.Name = fmt.Sprintf("%s-%vx", t.PhysicalLocation.PartLocation.LocationType, t.PhysicalLocation.PartLocation.LocationOrdinalValue)
+	}
 
 	// This is a read/write object, so we need to save the raw object data for later
 	drive.rawData = b
