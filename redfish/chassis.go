@@ -226,6 +226,7 @@ type Chassis struct {
 	thermal         string
 	power           string
 	networkAdapters string
+	sensors         string
 	computerSystems []string
 	resourceBlocks  []string
 	managedBy       []string
@@ -260,6 +261,7 @@ func (chassis *Chassis) UnmarshalJSON(b []byte) error {
 		Thermal         common.Link
 		Power           common.Link
 		NetworkAdapters common.Link
+		Sensors         common.Link
 		Links           linkReference
 		Actions         Actions
 	}
@@ -285,6 +287,8 @@ func (chassis *Chassis) UnmarshalJSON(b []byte) error {
 	chassis.managedBy = t.Links.ManagedBy.ToStrings()
 	chassis.resetTarget = t.Actions.ChassisReset.Target
 	chassis.SupportedResetTypes = t.Actions.ChassisReset.AllowedResetTypes
+
+	chassis.sensors = string(t.Sensors)
 
 	// This is a read/write object, so we need to save the raw object data for later
 	chassis.rawData = b
@@ -502,4 +506,9 @@ func (chassis *Chassis) Reset(resetType ResetType) error {
 		defer resp.Body.Close()
 	}
 	return err
+}
+
+// Sensors gets the collection of network adapters of this chassis
+func (chassis *Chassis) Sensors() ([]*Sensors, error) {
+	return ListReferencedSensors(chassis.Client, chassis.sensors)
 }

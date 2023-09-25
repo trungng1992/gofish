@@ -267,7 +267,7 @@ type Processor struct {
 	accelerationFunctions string
 	// Actions is The Actions property shall contain the available actions
 	// for this resource.
-	Actions string
+	actions string
 	// Assembly shall be a link to a resource
 	// of type Assembly.
 	assembly string
@@ -319,9 +319,9 @@ type Processor struct {
 	// Status shall contain any status or health properties
 	// of the resource.
 	Status common.Status
-	// SubProcessors shall be a link to a
+	// subProcessors shall be a link to a
 	// collection of type ProcessorCollection.
-	SubProcessors string
+	subProcessors string
 	// TDPWatts shall be the nominal Thermal
 	// Design Power (TDP) in watts.
 	TDPWatts int
@@ -377,6 +377,7 @@ func (processor *Processor) UnmarshalJSON(b []byte) error {
 		Assembly              common.Link
 		Metrics               common.Link
 		ProcessorMemory       common.Links
+		SubProcessors         common.Link
 		Links                 struct {
 			Chassis                  common.Link
 			ConnectedProcessors      common.Links
@@ -430,6 +431,7 @@ func (processor *Processor) UnmarshalJSON(b []byte) error {
 	processor.pcieDevice = string(t.Links.PCIeDevice)
 	processor.pcieFunctions = t.Links.PCIeFunctions.ToStrings()
 	processor.PCIeFunctionsCount = t.Links.PCIeFunctionsCount
+	processor.subProcessors = string(t.SubProcessors)
 	processor.metrics = string(t.Metrics)
 
 	return nil
