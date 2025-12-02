@@ -49,6 +49,8 @@ func GetPhysicalDrive(c common.Client, uri string) (*PhysicalDrive, error) {
 		return nil, err
 	}
 
+	defer resp.Body.Close()
+
 	var physicalDrive PhysicalDrive
 	err = json.NewDecoder(resp.Body).Decode(&physicalDrive)
 	if err != nil {

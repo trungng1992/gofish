@@ -40,6 +40,7 @@ func GetLogicalDrive(c common.Client, uri string) (*LogicalDrive, error) {
 		return nil, err
 	}
 
+	defer resp.Body.Close()
 	var logicalDrive LogicalDrive
 	err = json.NewDecoder(resp.Body).Decode(&logicalDrive)
 	if err != nil {

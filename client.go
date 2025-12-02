@@ -327,9 +327,9 @@ func (c *APIClient) DeleteWithHeaders(url string, customHeaders map[string]strin
 	if err != nil {
 		return nil, err
 	}
-	if resp != nil && resp.Body != nil {
-		resp.Body.Close()
-	}
+
+	defer resp.Body.Close()
+
 	return resp, nil
 }
 
