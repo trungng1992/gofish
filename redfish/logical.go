@@ -6,6 +6,7 @@ package redfish
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/trungng1992/gofish/common"
 )
@@ -80,7 +81,9 @@ func GetLogical(c common.Client, uri string) (*Logical, error) {
 	}
 
 	physicaldrive, _ := ListReferencedPhysicalDrive(c, volume.datadrive)
-	volume.DrivesCount = physicaldrive.DrivesCount
+	if physicaldrive != nil {
+		volume.DrivesCount = physicaldrive.DrivesCount
+	}
 
 	volume.SetClient(c)
 	return &volume, nil
@@ -103,6 +106,8 @@ func ListReferencedLogical(c common.Client, link string) ([]*Logical, error) { /
 		volume, err := GetLogical(c, volumeLink)
 		if err != nil {
 			collectionError.Failures[volumeLink] = err
+		} else if volume == nil {
+			collectionError.Failures[volumeLink] = fmt.Errorf("volume %s not found", volumeLink)
 		} else {
 			result = append(result, volume)
 		}
