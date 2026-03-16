@@ -37,6 +37,8 @@ const (
 	SODIMM32bBaseModuleType BaseModuleType = "SO_DIMM_32b"
 	// DieBaseModuleType A die within a package.
 	DieBaseModuleType BaseModuleType = "Die"
+	// CAMMBaseModuleType Compression Attached Memory Module.
+	CAMMBaseModuleType BaseModuleType = "CAMM"
 )
 
 // ErrorCorrection is the type of error correction used.
@@ -116,6 +118,43 @@ const (
 	HBMMemoryDeviceType MemoryDeviceType = "HBM"
 	// HBM2MemoryDeviceType High Bandwidth Memory 2.
 	HBM2MemoryDeviceType MemoryDeviceType = "HBM2"
+	// HBM2EMemoryDeviceType is an updated version of the second generation of High
+	// Bandwidth Memory.
+	HBM2EMemoryDeviceType MemoryDeviceType = "HBM2E"
+	// HBM3MemoryDeviceType The third generation of High Bandwidth Memory.
+	HBM3MemoryDeviceType MemoryDeviceType = "HBM3"
+	// GDDRMemoryDeviceType Synchronous graphics random-access memory.
+	GDDRMemoryDeviceType MemoryDeviceType = "GDDR"
+	// GDDR2MemoryDeviceType Double data rate type two synchronous graphics
+	// random-access memory.
+	GDDR2MemoryDeviceType MemoryDeviceType = "GDDR2"
+	// GDDR3MemoryDeviceType Double data rate type three synchronous graphics
+	// random-access memory.
+	GDDR3MemoryDeviceType MemoryDeviceType = "GDDR3"
+	// GDDR4MemoryDeviceType Double data rate type four synchronous graphics
+	// random-access memory.
+	GDDR4MemoryDeviceType MemoryDeviceType = "GDDR4"
+	// GDDR5MemoryDeviceType Double data rate type five synchronous graphics
+	// random-access memory.
+	GDDR5MemoryDeviceType MemoryDeviceType = "GDDR5"
+	// GDDR5XMemoryDeviceType Double data rate type five X synchronous graphics
+	// random-access memory.
+	GDDR5XMemoryDeviceType MemoryDeviceType = "GDDR5X"
+	// GDDR6MemoryDeviceType Double data rate type six synchronous graphics
+	// random-access memory.
+	GDDR6MemoryDeviceType MemoryDeviceType = "GDDR6"
+	// GDDR7MemoryDeviceType Double data rate type seven synchronous graphics
+	// random-access memory.
+	GDDR7MemoryDeviceType MemoryDeviceType = "GDDR7"
+	// DDR5MemoryDeviceType Double data rate type five synchronous dynamic
+	// random-access memory.
+	DDR5MemoryDeviceType MemoryDeviceType = "DDR5"
+	// OEMMemoryDeviceType OEM-defined.
+	OEMMemoryDeviceType MemoryDeviceType = "OEM"
+	// LPDDR5SDRAMMemoryDeviceType LPDDR5 SDRAM.
+	LPDDR5SDRAMMemoryDeviceType MemoryDeviceType = "LPDDR5_SDRAM"
+	// DDR5MRDIMMMemoryDeviceType DDR5 MRDIMM.
+	DDR5MRDIMMMemoryDeviceType MemoryDeviceType = "DDR5_MRDIMM"
 )
 
 // MemoryMedia is media type.
@@ -147,6 +186,8 @@ const (
 	// IntelOptaneMemoryType shall represent Intel Optane DC Persistent
 	// Memory.
 	IntelOptaneMemoryType MemoryType = "IntelOptane"
+	// CacheMemoryType shall represent cache memory.
+	CacheMemoryType MemoryType = "Cache"
 )
 
 // OperatingMemoryModes is is the memory operating mode.
@@ -346,6 +387,8 @@ func (memory *Memory) UnmarshalJSON(b []byte) error {
 		Metrics    common.Link
 		SizeMB     int
 		DIMMStatus string
+		// MemoryLocation is Memory location information to sockets and memory controllers.
+		MemoryLocation MemoryLocationTmp
 	}
 
 	err := json.Unmarshal(b, &t)
@@ -354,6 +397,13 @@ func (memory *Memory) UnmarshalJSON(b []byte) error {
 	}
 
 	*memory = Memory(t.temp)
+
+	switch t.MemoryLocation.Channel.(type) {
+	case int:
+		memory.MemoryLocation.Channel = t.MemoryLocation.Channel.(int)
+	default:
+		memory.MemoryLocation.Channel = 0
+	}
 
 	// Extract the links to other entities for later
 	memory.assembly = string(t.Assembly)
@@ -478,6 +528,20 @@ func (memory *Memory) Chassis() (*Chassis, error) {
 type MemoryLocation struct {
 	// Channel is Channel number in which Memory is connected.
 	Channel int
+	// MemoryController is Memory controller number in which Memory is
+	// connected.
+	MemoryController int
+	// Slot is Slot number in which Memory is connected.
+	Slot int
+	// Socket is Socket number in which Memory is connected.
+	Socket int
+}
+
+// MemoryLocation shall contain properties which describe the Memory connection
+// information to sockets and memory controllers.
+type MemoryLocationTmp struct {
+	// Channel is Channel number in which Memory is connected.
+	Channel interface{}
 	// MemoryController is Memory controller number in which Memory is
 	// connected.
 	MemoryController int

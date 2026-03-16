@@ -16,61 +16,77 @@ import (
 type ChassisType string
 
 const (
-	// BladeChassisType is an enclosed or semi-enclosed, typically vertically-oriented, system
-	// chassis which must be plugged into a multi-system chassis to function normally.
-	BladeChassisType ChassisType = "Blade"
-	// CardChassisType is a loose device or circuit board intended to be installed in a system
-	// or other enclosure.
-	CardChassisType ChassisType = "Card"
-	// CartridgeChassisType is a small self-contained system intended to be plugged into a multi-system
-	// chassis.
-	CartridgeChassisType ChassisType = "Cartridge"
-	// ComponentChassisType is a small chassis, card, or device which contains devices for a particular
-	// subsystem or function.
-	ComponentChassisType ChassisType = "Component"
-	// DrawerChassisType is an enclosed or semi-enclosed, typically horizontally-oriented, system
-	// chassis which may be slid into a multi-system chassis.
-	DrawerChassisType ChassisType = "Drawer"
-	// EnclosureChassisType is a generic term for a chassis that does not fit any other description.
-	EnclosureChassisType ChassisType = "Enclosure"
-	// ExpansionChassisType is a chassis which expands the capabilities or capacity of another
-	// chassis.
-	ExpansionChassisType ChassisType = "Expansion"
-	// IPBasedDriveChassisType is a chassis in a drive form factor with IP-based network connections.
-	IPBasedDriveChassisType ChassisType = "IPBasedDrive"
-	// ModuleChassisType is a small, typically removable, chassis or card which contains devices
-	// for a particular subsystem or function.
-	ModuleChassisType ChassisType = "Module"
-	// OtherChassisType is a chassis that does not fit any of these definitions.
-	OtherChassisType ChassisType = "Other"
-	// PodChassisType is a collection of equipment racks in a large, likely transportable, container.
-	PodChassisType ChassisType = "Pod"
-	// RackChassisType is an equipment rack, typically a 19-inch wide freestanding unit.
+	// RackChassisType is an equipment rack, typically a 19-inch wide freestanding
+	// unit.
 	RackChassisType ChassisType = "Rack"
-	// RackGroupChassisType is a group of racks which form a single entity or share infrastructure.
-	RackGroupChassisType ChassisType = "RackGroup"
-	// RackMountChassisType is a single system chassis designed specifically for mounting in an
-	// equipment rack.
+	// BladeChassisType is an enclosed or semi-enclosed, typically
+	// vertically-oriented, system chassis that must be plugged into a multi-system
+	// chassis to function normally.
+	BladeChassisType ChassisType = "Blade"
+	// EnclosureChassisType is a generic term for a chassis that does not fit any
+	// other description.
+	EnclosureChassisType ChassisType = "Enclosure"
+	// StandAloneChassisType is a single, free-standing system, commonly called a
+	// tower or desktop chassis.
+	StandAloneChassisType ChassisType = "StandAlone"
+	// RackMountChassisType is a single-system chassis designed specifically for
+	// mounting in an equipment rack.
 	RackMountChassisType ChassisType = "RackMount"
+	// CardChassisType is a loose device or circuit board intended to be installed
+	// in a system or other enclosure.
+	CardChassisType ChassisType = "Card"
+	// CartridgeChassisType is a small self-contained system intended to be plugged
+	// into a multi-system chassis.
+	CartridgeChassisType ChassisType = "Cartridge"
 	// RowChassisType is a collection of equipment racks.
 	RowChassisType ChassisType = "Row"
-	// ShelfChassisType is an enclosed or semi-enclosed, typically horizontally-oriented, system
-	// chassis which must be plugged into a multi-system chassis to function normally.
-	ShelfChassisType ChassisType = "Shelf"
-	// SidecarChassisType is a chassis that mates mechanically with another chassis to expand
-	// its capabilities or capacity.
+	// PodChassisType is a collection of equipment racks in a large, likely
+	// transportable, container.
+	PodChassisType ChassisType = "Pod"
+	// ExpansionChassisType is a chassis that expands the capabilities or capacity
+	// of another chassis.
+	ExpansionChassisType ChassisType = "Expansion"
+	// SidecarChassisType is a chassis that mates mechanically with another chassis
+	// to expand its capabilities or capacity.
 	SidecarChassisType ChassisType = "Sidecar"
-	// SledChassisType is an enclosed or semi-enclosed, system chassis which must be plugged into
-	// a multi-system chassis to function normally similar to a blade type chassis.
-	SledChassisType ChassisType = "Sled"
-	// StandAloneChassisType is a single, free-standing system, commonly called a tower or desktop
-	// chassis.
-	StandAloneChassisType ChassisType = "StandAlone"
-	// StorageEnclosureChassisType is a chassis which encloses storage.
-	StorageEnclosureChassisType ChassisType = "StorageEnclosure"
-	// ZoneChassisType is a logical division or portion of a physical chassis that contains multiple
-	// devices or systems that cannot be physically separated.
+	// ZoneChassisType is a logical division or portion of a physical chassis that
+	// contains multiple devices or systems that cannot be physically separated.
 	ZoneChassisType ChassisType = "Zone"
+	// SledChassisType is an enclosed or semi-enclosed, system chassis that must be
+	// plugged into a multi-system chassis to function normally similar to a blade
+	// type chassis.
+	SledChassisType ChassisType = "Sled"
+	// ShelfChassisType is an enclosed or semi-enclosed, typically
+	// horizontally-oriented, system chassis that must be plugged into a
+	// multi-system chassis to function normally.
+	ShelfChassisType ChassisType = "Shelf"
+	// DrawerChassisType is an enclosed or semi-enclosed, typically
+	// horizontally-oriented, system chassis that can be slid into a multi-system
+	// chassis.
+	DrawerChassisType ChassisType = "Drawer"
+	// ModuleChassisType is a small, typically removable, chassis or card that
+	// contains devices for a particular subsystem or function.
+	ModuleChassisType ChassisType = "Module"
+	// ComponentChassisType is a small chassis, card, or device that contains
+	// devices for a particular subsystem or function.
+	ComponentChassisType ChassisType = "Component"
+	// IPBasedDriveChassisType is a chassis in a drive form factor with IP-based
+	// network connections.
+	IPBasedDriveChassisType ChassisType = "IPBasedDrive"
+	// RackGroupChassisType is a group of racks that form a single entity or share
+	// infrastructure.
+	RackGroupChassisType ChassisType = "RackGroup"
+	// StorageEnclosureChassisType is a chassis that encloses storage.
+	StorageEnclosureChassisType ChassisType = "StorageEnclosure"
+	// ImmersionTankChassisType is an immersion cooling tank.
+	ImmersionTankChassisType ChassisType = "ImmersionTank"
+	// HeatExchangerChassisType is a heat exchanger.
+	HeatExchangerChassisType ChassisType = "HeatExchanger"
+	// PowerStripChassisType is a power strip, typically placed in the zero-U space
+	// of a rack.
+	PowerStripChassisType ChassisType = "PowerStrip"
+	// OtherChassisType is a chassis that does not fit any of these definitions.
+	OtherChassisType ChassisType = "Other"
 )
 
 // EnvironmentalClass is
@@ -230,6 +246,7 @@ type Chassis struct {
 	computerSystems []string
 	resourceBlocks  []string
 	managedBy       []string
+
 	// resetTarget is the internal URL to send reset actions to.
 	resetTarget string
 	// SupportedResetTypes, if provided, is the reset types this chassis supports.
